@@ -4,6 +4,13 @@
 
 import DcentWebConnector from 'dcent-web-connector'
 import LOG from '../utils/log'
+import ChinId from './ethereum-chainid'
+
+/* //////////////////////////////////////////////////////////////////////// */
+/* */
+/* //////////////////////////////////////////////////////////////////////// */
+
+const _ethereumKeyPath = "m/44'/60'/0'/0/0"
 
 /* //////////////////////////////////////////////////////////////////////// */
 /* */
@@ -18,7 +25,7 @@ const isConnected = async () => {
 
 const ethereumAddress = async () => {
     let coinType = DcentWebConnector.coinType.ETHEREUM
-    let keyPath = "m/44'/60'/0'/0/0"
+    let keyPath = _ethereumKeyPath
     let address = await DcentWebConnector.getAddress(coinType, keyPath)
     LOG.debug('address = ', address)
     DcentWebConnector.popupWindowClose()
@@ -29,23 +36,23 @@ const ethereumSignTransaction = async (txInfo) => {
     LOG.debug('txInfo = ', txInfo)
 
     let coinType = DcentWebConnector.coinType.ETHEREUM
-    let nonce = txInfo.nonce
-    let gasPrice = txInfo.gas_price
-    let gasLimit = txInfo.gas_limit
+    let nonce = parseInt(txInfo.nonce)
+    let gasPrice = parseInt(txInfo.gas_price)
+    let gasLimit = parseInt(txInfo.gas_limit)
     let to = txInfo.to
-    let value = txInfo.value
-    let data = txInfo.data
-    let key = txInfo.key
-    let chainId = Number(txInfo.chain_id)
+    let value = parseInt(txInfo.value)
+    let data = txInfo.data || ''
+    let key = _ethereumKeyPath
+    let chainId = ChinId.MAINNET
   
     try {
         let signedTx = await DcentWebConnector.getEthereumSignedTransaction(
             coinType,
-            nonce,
-            gasPrice,
-            gasLimit,
-            to,
-            value,
+            nonce.toString(),
+            gasPrice.toString(),
+            gasLimit.toString(),
+            to.toString(),
+            value.toString(),
             data,
             key,
             chainId

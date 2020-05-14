@@ -10,9 +10,6 @@ let debug = console.log.bind(window.console, '[DEBUG] ')  // eslint-disable-line
 if (!isDebug) {
     debug = () => { }
 }
-if (isTest) {
-    debug = () => { }
-}
 
 const warn = console.warn.bind(window.console, '[WARN] ') // eslint-disable-line no-console
 const error = console.error.bind(window.console, '[ERROR] ') // eslint-disable-line no-console

@@ -1,7 +1,7 @@
 {
   "name": "dcent-provider",
   "version": "0.1.0-beta",
-  "description": "D'CENT Provider for wrapping Dcent Web Connector",
+  "description": "D'CENT Provider wrapping Dcent Web Connector",
   "main": "index.js",
   "scripts": {
     "build-dev": "webpack --mode development",
@@ -58,6 +58,8 @@
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6"
   },
-  "dependencies": {},
+  "dependencies": {
+    "web3-provider-engine": "^15.0.7"
+  },
   "license": "MIT"
 }

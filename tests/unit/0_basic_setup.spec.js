@@ -2,8 +2,16 @@
 /* */
 /* //////////////////////////////////////////////////////////////////////// */
 
-describe('Welcome', () => {
-    it('Hello World', (done) => {
+import DcentProvider from '../../src'
+
+/* //////////////////////////////////////////////////////////////////////// */
+/* */
+/* //////////////////////////////////////////////////////////////////////// */
+
+describe(__filename.replace(__dirname, ''), () => {
+    it('Create Provider Simple', async (done) => {
+        const provider = new DcentProvider({})
+        let account = await provider.enable()
         done()
     })
 })

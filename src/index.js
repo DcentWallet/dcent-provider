@@ -2,8 +2,8 @@
 /* */
 /* //////////////////////////////////////////////////////////////////////// */
 
-import ProviderFactory from './provider-factory/provider-factory'
-import DcentConnector from './dcent-connector/dcent-connector'
+import ProviderFactory from './provider-factory'
+import DcentConnector from './dcent-connector'
 import Web3ProviderEngine from 'web3-provider-engine'
 import LOG from './utils/log'
 

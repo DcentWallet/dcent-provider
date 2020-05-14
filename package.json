@@ -6,20 +6,7 @@
   "scripts": {
     "build-dev": "webpack --mode development",
     "build": "webpack --mode production",
-    "test": "jest --detectOpenHandles --coverage --forceExit --runInBand"
-  },
-  "jest": {
-    "preset": "jest-puppeteer",
-    "testEnvironment": "jsdom",
-    "testSequencer": "./tests/testSequencer.js",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ],
-    "coverageDirectory": "tests/coverage",
-    "collectCoverage": true,
-    "setupFilesAfterEnv": [
-      "./tests/jest.setup.js"
-    ]
+    "test": "jest --config tests/jest.conf.js --detectOpenHandles --coverage --forceExit --runInBand"
   },
   "repository": {
     "type": "git",
@@ -58,8 +45,6 @@
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6"
   },
-  "dependencies": {
-    "web3-provider-engine": "^15.0.7"
-  },
+  "dependencies": {},
   "license": "MIT"
 }

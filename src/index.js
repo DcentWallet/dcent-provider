@@ -3,6 +3,7 @@
 /* //////////////////////////////////////////////////////////////////////// */
 
 import ProviderFactory from './provider-factory/provider-factory'
+import DcentConnector from './dcent-connector/dcent-connector'
 import Web3ProviderEngine from 'web3-provider-engine'
 
 /* //////////////////////////////////////////////////////////////////////// */
@@ -18,8 +19,9 @@ const _getRpcPromiseCallback = (resolve, reject) => (error, response) => {
 }
 
 const _walletFunc = {
-    getAccounts: (callback) => {
-        callback(null, ['0x59B1e729B5c65D2c25F6A16164cF0Db0E9fA5754'])
+    getAccounts: async (callback) => {
+        const address = await DcentConnector.ethereumAddress()
+        callback(null, [address])
     },
     signTransaction: (tx, callback) => {
         //callback(null, [])

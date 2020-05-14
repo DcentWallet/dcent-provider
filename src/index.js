@@ -2,19 +2,32 @@
 /* */
 /* //////////////////////////////////////////////////////////////////////// */
 
+import ProviderFactory from './provider-factory/provider-factory'
 import Web3ProviderEngine from 'web3-provider-engine'
 
 /* //////////////////////////////////////////////////////////////////////// */
 /* */
 /* //////////////////////////////////////////////////////////////////////// */
 
+const walletFunc = {
+    getAccounts: (callback) => {
+        callback(null, [])
+    },
+    signTransaction: (tx, callback) => {
+        //callback(null, [])
+        callback(new Error('Not Implemented'))
+    },
+}
+
 class DcentProvider extends Web3ProviderEngine {
     constructor(opts) {
         super(opts)
+        opts.wallet = walletFunc
+        ProviderFactory.initialize(this, opts)
     }
 
     enable() {
-        return new Promise((resolve) => resolve())
+        return new Promise((resolve) => resolve([]))
     }
 }
 

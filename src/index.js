@@ -43,7 +43,12 @@ class DcentProvider extends Web3ProviderEngine {
     }
 
     enable() {
-        return new Promise((resolve) => resolve([]))
+        return new Promise((resolve) => {
+            DcentConnector.ethereumAddress()
+            .then((address) => {
+                resolve([address])
+            })
+        })
     }
 
     send(method, params) {

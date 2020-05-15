@@ -6,12 +6,12 @@
           :src="require('../assets/logo.svg')"
           class="my-3"
           contain
-          height="100"
+          height="60"
         />
       </v-col>
 
       <v-col class="mb-4">
-        <h1 class="display-2 font-weight-bold mb-3">
+        <h1 class="display-1 font-weight-bold mb-3">
           Demo Page for D'CENT Web3 Provider
         </h1>
       </v-col>

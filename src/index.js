@@ -37,10 +37,8 @@ const _walletFunc = {
 
 class DcentProvider extends Web3ProviderEngine {
     constructor(opts) {
-        super(opts)
-        if (!opts) {
-            opts = {}
-        }
+        super({})
+        if (!opts) { opts = {} }
         opts.wallet = _walletFunc
         ProviderFactory.initialize(this, opts)
     }

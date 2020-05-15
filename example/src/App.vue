@@ -13,7 +13,9 @@
       </v-app-bar>
 
       <v-content>
-          <div v-if="isConnected"></div>
+          <div v-if="isConnected">
+              <DemoFunction :address="walletAddress"/>
+          </div>
           <div v-else>
               <HelloWorld />
           </div>
@@ -22,7 +24,8 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import HelloWorld from './components/HelloWorld'
+import DemoFunction from './components/DemoFunction'
 import DcentProvider from '../../src'
 
 export default {
@@ -30,6 +33,7 @@ export default {
 
     components: {
         HelloWorld,
+        DemoFunction,
     },
 
     data() {
@@ -42,7 +46,7 @@ export default {
 
     computed: {
         btnConnectLabel() {
-            return this.isConnected ? "Disconnect" : "Connect"
+            return this.isConnected ? 'Disconnect' : 'Connect'
         }
     },
 
@@ -59,7 +63,7 @@ export default {
         connectWallet() {
             this.provider.enable().then((addresses) => {
                 console.log('wallet addresses = ', addresses)
-                if (addresses.length > 1) {
+                if (addresses.length > 0) {
                     this.walletAddress = addresses[0]
                     this.isConnected = true
                 }

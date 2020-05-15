@@ -1,49 +1,79 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="blue-grey darken-4"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="D'CENT Logo"
-          class="shrink mr-2"
-          contain
-          src="./assets/logo.png"
-          transition="scale-transition"
-          width="40"
-        />
-      </div>
+      <v-app-bar app color="blue-grey darken-4" dark>
+          <div class="d-flex align-center">
+              <v-img alt="D'CENT Logo" class="shrink mr-2" contain src="./assets/logo.png" transition="scale-transition" width="40" />
+          </div>
 
-      <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
-      <v-btn
-        href="#"
-        text
-      >
-        <span class="mr-2">Connect</span>
-      </v-btn>
-    </v-app-bar>
+          <v-btn text @click="onClickConnect">
+              <span class="mr-2">{{ btnConnectLabel }}</span>
+          </v-btn>
+      </v-app-bar>
 
-    <v-content>
-      <HelloWorld/>
-    </v-content>
+      <v-content>
+          <div v-if="isConnected"></div>
+          <div v-else>
+              <HelloWorld />
+          </div>
+      </v-content>
   </v-app>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld';
+import DcentProvider from '../../src'
 
 export default {
-  name: 'App',
+    name: 'App',
 
-  components: {
-    HelloWorld,
-  },
+    components: {
+        HelloWorld,
+    },
 
-  data: () => ({
-    //
-  }),
+    data() {
+        return {
+            provider: undefined,
+            walletAddress: undefined,
+            isConnected: false
+        }
+    },
+
+    computed: {
+        btnConnectLabel() {
+            return this.isConnected ? "Disconnect" : "Connect"
+        }
+    },
+
+    created() {
+        this.provider = new DcentProvider()
+    },
+
+    methods: {
+        disconnectWallet() {
+            this.isConnected = false
+            this.walletAddress = undefined
+        },
+
+        connectWallet() {
+            this.provider.enable().then((addresses) => {
+                console.log('wallet addresses = ', addresses)
+                if (addresses.length > 1) {
+                    this.walletAddress = addresses[0]
+                    this.isConnected = true
+                }
+            })
+        },
+
+        onClickConnect() {
+            console.log('onClickConnect')
+            if (this.isConnected) {
+                this.disconnectWallet()
+            } else {
+                this.connectWallet()
+            }
+        }
+    }
 };
 </script>

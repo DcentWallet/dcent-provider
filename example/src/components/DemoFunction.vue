@@ -5,9 +5,9 @@
         <v-btn 
           text outlined
           class="subheading mb-3" 
-          :href="'https://etherscan.io/address/'+address" target="_blank"
+          :href="explorerUrl" target="_blank"
         >
-          {{ address }}
+          {{ networkName }} : {{ address }}
         </v-btn>
       </v-col>
     </v-row>
@@ -51,6 +51,44 @@
       address: {
         type: String,
         default: 'Wallet is disconnected'
+      },
+      provider: {
+        type: Object,
+        default: undefined
+      }
+    },
+
+    data() {
+      return {
+        web3: undefined,
+        chainId: 1,
+      }
+    },
+
+    created() {
+      if (this.provider) {
+        this.web3 = new Web3(this.provider)
+        this.web3.eth.net.getId()
+        .then((chainId) => {
+          this.chainId = chainId
+        })
+      }
+    },
+
+    computed: {
+      explorerUrl () {
+        switch(this.chainId) {
+          case 1: return 'https://etherscan.io/address/' + this.address
+          case 42: return 'https://kovan.etherscan.io/address/' + this.address
+        }
+        return ''
+      },
+      networkName () {
+        switch(this.chainId) {
+          case 1: return 'Mainnet'
+          case 42: return 'Kovan'
+        }
+        return ''
       }
     },
 

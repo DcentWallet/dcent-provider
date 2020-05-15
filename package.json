@@ -2,7 +2,7 @@
   "name": "dcent-provider",
   "version": "0.1.0-beta",
   "description": "D'CENT Provider wrapping Dcent Web Connector",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "build-dev": "webpack --mode development",
     "build": "webpack --mode production",
@@ -42,6 +42,7 @@
     "path": "^0.12.7",
     "puppeteer": "^2.1.1",
     "regenerator-runtime": "^0.13.3",
+    "web3": "^1.2.7",
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6"
   },

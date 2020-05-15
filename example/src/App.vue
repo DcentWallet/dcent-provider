@@ -14,7 +14,7 @@
 
       <v-content>
           <div v-if="isConnected">
-              <DemoFunction :address="walletAddress"/>
+              <DemoFunction :address="walletAddress" :provider="provider" />
           </div>
           <div v-else>
               <HelloWorld />
@@ -26,7 +26,7 @@
 <script>
 import HelloWorld from './components/HelloWorld'
 import DemoFunction from './components/DemoFunction'
-import DcentProvider from '../../src'
+import DcentProvider from 'dcent-provider'
 
 export default {
     name: 'App',
@@ -51,7 +51,8 @@ export default {
     },
 
     created() {
-        this.provider = new DcentProvider()
+        this.provider = new DcentProvider({
+        })
     },
 
     methods: {

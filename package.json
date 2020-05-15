@@ -45,6 +45,9 @@
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6"
   },
-  "dependencies": {},
+  "dependencies": {
+    "dcent-web-connector": "^0.7.2-beta",
+    "web3-provider-engine": "^15.0.7"
+  },
   "license": "MIT"
 }

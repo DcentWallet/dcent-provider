@@ -27,10 +27,14 @@ const _walletFunc = {
         })
     },
     signTransaction: (tx, callback) => {
+        LOG.debug('ENTER : signTransaction')
         LOG.debug('tx = ', tx)
+
         DcentConnector.ethereumSignTransaction(tx)
         .then((signedTx) => {
             callback(null, signedTx)
+        }).catch((error) => {
+            callback(error)
         })
     },
 }

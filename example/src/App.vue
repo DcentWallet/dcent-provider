@@ -26,7 +26,7 @@
 <script>
 import HelloWorld from './components/HelloWorld'
 import DemoFunction from './components/DemoFunction'
-import DcentProvider from 'dcent-provider'
+import DcentProvider from '../../src'
 
 export default {
     name: 'App',

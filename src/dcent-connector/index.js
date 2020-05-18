@@ -16,6 +16,13 @@ const _ethereumKeyPath = "m/44'/60'/0'/0/0"
 /* */
 /* //////////////////////////////////////////////////////////////////////// */
 
+const _toHexString = (value) => {
+    const hex = '0x' + parseInt(value).toString(16)
+    LOG.debug('value = ', value)
+    LOG.debug('hex = ', hex)
+    return hex
+}
+
 const isConnected = async () => {
     let info = await DcentWebConnector.info()
     LOG.debug('info = ', info)
@@ -36,23 +43,28 @@ const ethereumSignTransaction = async (txInfo) => {
     LOG.debug('txInfo = ', txInfo)
 
     let coinType = DcentWebConnector.coinType.ETHEREUM
-    let nonce = parseInt(txInfo.nonce)
-    let gasPrice = parseInt(txInfo.gas_price)
-    let gasLimit = parseInt(txInfo.gas_limit)
-    let to = txInfo.to
-    let value = parseInt(txInfo.value)
+    let nonce = _toHexString(txInfo.nonce)
+    let gasPrice = _toHexString(txInfo.gasPrice)
+    let gasLimit = _toHexString(txInfo.gas)
+    let to = txInfo.to.toString()
+    let value = _toHexString(txInfo.value)
     let data = txInfo.data || ''
     let key = _ethereumKeyPath
     let chainId = ChinId.MAINNET
   
+    LOG.debug('nonce = ', nonce)
+    LOG.debug('typeof nonce = ', typeof nonce)
+    LOG.debug('value = ', value)
+    LOG.debug('typeof value = ', typeof value)
+
     try {
         let signedTx = await DcentWebConnector.getEthereumSignedTransaction(
             coinType,
-            nonce.toString(),
-            gasPrice.toString(),
-            gasLimit.toString(),
-            to.toString(),
-            value.toString(),
+            nonce,
+            gasPrice,
+            gasLimit,
+            to,
+            value,
             data,
             key,
             chainId

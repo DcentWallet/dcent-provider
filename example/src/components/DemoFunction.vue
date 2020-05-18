@@ -44,7 +44,9 @@
 </template>
 
 <script>
-  import Web3 from "web3"
+  import Web3 from 'web3'
+  import EthGasStation from '../apis/ethgasstation-info'
+  import Convert from '../plugins/convert'
   export default {
     name: 'DemoFunction',
     props: {
@@ -55,17 +57,18 @@
       provider: {
         type: Object,
         default: undefined
-      }
+      },
     },
 
     data() {
       return {
         web3: undefined,
         chainId: 1,
+        gasPrice: 0
       }
     },
 
-    created() {
+    created() {``
       if (this.provider) {
         this.web3 = new Web3(this.provider)
         this.web3.eth.net.getId()
@@ -73,28 +76,52 @@
           this.chainId = chainId
         })
       }
+      EthGasStation.getEthereumGasPrice()
+      .then((gasPriceInfo) => {
+        this.gasPrice = Convert.convertGweiToWei(gasPriceInfo.low)
+      })
     },
 
     computed: {
       explorerUrl () {
+        let baseUrl = ''
         switch(this.chainId) {
-          case 1: return 'https://etherscan.io/address/' + this.address
-          case 42: return 'https://kovan.etherscan.io/address/' + this.address
+          case 1: baseUrl = 'https://etherscan.io/address/'; break
+          case 3: baseUrl = 'https://ropsten.etherscan.io/address/'; break
+          case 4: baseUrl = 'https://rinkeby.etherscan.io/address/'; break
+          case 5: baseUrl = 'https://goerli.etherscan.io/address/'; break
+          case 42: baseUrl = 'https://kovan.etherscan.io/address/'; break
         }
-        return ''
+        return baseUrl + this.address
       },
       networkName () {
         switch(this.chainId) {
           case 1: return 'Mainnet'
+          case 3: return 'Ropsten'
+          case 4: return 'Rinkeby'
+          case 5: return 'Goerli'
           case 42: return 'Kovan'
         }
         return ''
+      },
+      selfTransferTx () {
+        return {
+          from: this.address,
+          gasPrice: this.gasPrice,
+          gas: '21000',
+          to: this.address,
+          value: '0',
+          data: ''
+        }
       }
     },
 
     methods: {
-      testSendTransaction() {
+      testSendTransaction: async function () {
         console.log('testSendTransaction')
+        const tx = this.selfTransferTx
+        const txhash = await this.web3.eth.sendTransaction(tx)
+        console.log('txhash = ', txhash)
       }
     }
   }

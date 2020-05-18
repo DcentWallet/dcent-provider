@@ -52,6 +52,8 @@ export default {
 
     created() {
         this.provider = new DcentProvider({
+            rpcUrl: process.env.VUE_APP_INFURA_RPC_URL,
+            chainId: 42
         })
     },
 

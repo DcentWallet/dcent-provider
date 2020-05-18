@@ -27,7 +27,7 @@
     </v-row>
     <v-row class="text-center">
       <v-col>
-          <v-btn dark min-width="50%">
+          <v-btn dark @click="testSign" min-width="50%">
               <span class="btn-test">eth.sign</span>
           </v-btn>
       </v-col>
@@ -128,6 +128,13 @@
         const tx = this.selfTransferTx
         const txhash = await this.web3.eth.sendTransaction(tx)
         console.log('txhash = ', txhash)
+      },
+
+      testSign: async function () {
+        console.log('testSign')
+        const message = "Hello D'CENT"
+        const signature = await this.web3.eth.sign(message, this.address)
+        console.log('signature = ', signature)
       }
     }
   }

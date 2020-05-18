@@ -27,7 +27,7 @@ class DcentProvider extends Web3ProviderEngine {
 
     enable() {
         return new Promise((resolve) => {
-            DcentConnector.ethereumAddress()
+            DcentConnector.ethereumAddress({needToClosePopup: true})
             .then((address) => {
                 resolve([address])
             })

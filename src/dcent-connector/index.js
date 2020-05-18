@@ -26,15 +26,17 @@ const isConnected = async () => {
     let info = await DcentWebConnector.info()
     LOG.debug('info = ', info)
     DcentWebConnector.popupWindowClose()
-    return info.body.parameter.isUsbAttached
+    return info.body.parameter.isUsbAttached 
 }
 
-const ethereumAddress = async () => {
+const ethereumAddress = async (opts) => {
     let coinType = DcentWebConnector.coinType.ETHEREUM
     let keyPath = _ethereumKeyPath
     let address = await DcentWebConnector.getAddress(coinType, keyPath)
     LOG.debug('address = ', address)
-    DcentWebConnector.popupWindowClose()
+    if (opts.needToClosePopup) {
+        DcentWebConnector.popupWindowClose()
+    }
     return address.body.parameter.address
 }
 
@@ -76,6 +78,26 @@ const ethereumSignTransaction = async (txInfo, chainId) => {
     }
 }
 
+const ethereumSignMessage = async (message) => {
+    let key = _ethereumKeyPath
+    try {
+        let signed = await DcentWebConnector.getEthereumSignedMessage(
+            message,
+            key,
+        )
+        LOG.debug('signed = ', signed)
+        if (signed.header.status === 'error') {
+            throw Error(JSON.stringify(signed.body.error))
+        }
+        return signed.body.parameter.sign
+    } catch (error) {
+        LOG.error(error)
+        throw error
+    } finally {
+        DcentWebConnector.popupWindowClose()
+    }
+}
+
 /* //////////////////////////////////////////////////////////////////////// */
 /* */
 /* //////////////////////////////////////////////////////////////////////// */
@@ -84,6 +106,7 @@ export default {
     isConnected,
     ethereumAddress,
     ethereumSignTransaction,
+    ethereumSignMessage,
 }
 
 /* //////////////////////////////////////////////////////////////////////// */

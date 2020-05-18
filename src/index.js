@@ -5,7 +5,6 @@
 import ProviderFactory from './provider-factory'
 import DcentConnector from './dcent-connector'
 import Web3ProviderEngine from 'web3-provider-engine'
-import LOG from './utils/log'
 
 /* //////////////////////////////////////////////////////////////////////// */
 /* */
@@ -19,31 +18,10 @@ const _getRpcPromiseCallback = (resolve, reject) => (error, response) => {
         : resolve(response.result)
 }
 
-const _walletFunc = {
-    getAccounts: (callback) => {
-        DcentConnector.ethereumAddress()
-        .then((address) => {
-            callback(null, [address])
-        })
-    },
-    signTransaction: (tx, callback) => {
-        LOG.debug('ENTER : signTransaction')
-        LOG.debug('tx = ', tx)
-
-        DcentConnector.ethereumSignTransaction(tx)
-        .then((signedTx) => {
-            callback(null, signedTx)
-        }).catch((error) => {
-            callback(error)
-        })
-    },
-}
-
 class DcentProvider extends Web3ProviderEngine {
     constructor(opts) {
         super({})
         if (!opts) { opts = {} }
-        opts.wallet = _walletFunc
         ProviderFactory.initialize(this, opts)
     }
 

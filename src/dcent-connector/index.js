@@ -4,7 +4,6 @@
 
 import DcentWebConnector from 'dcent-web-connector'
 import LOG from '../utils/log'
-import ChinId from './ethereum-chainid'
 
 /* //////////////////////////////////////////////////////////////////////// */
 /* */
@@ -39,8 +38,9 @@ const ethereumAddress = async () => {
     return address.body.parameter.address
 }
 
-const ethereumSignTransaction = async (txInfo) => {
+const ethereumSignTransaction = async (txInfo, chainId) => {
     LOG.debug('txInfo = ', txInfo)
+    LOG.debug('chainId = ', chainId)
 
     let coinType = DcentWebConnector.coinType.ETHEREUM
     let nonce = _toHexString(txInfo.nonce)
@@ -50,12 +50,6 @@ const ethereumSignTransaction = async (txInfo) => {
     let value = _toHexString(txInfo.value)
     let data = txInfo.data || ''
     let key = _ethereumKeyPath
-    let chainId = ChinId.MAINNET
-  
-    LOG.debug('nonce = ', nonce)
-    LOG.debug('typeof nonce = ', typeof nonce)
-    LOG.debug('value = ', value)
-    LOG.debug('typeof value = ', typeof value)
 
     try {
         let signedTx = await DcentWebConnector.getEthereumSignedTransaction(
@@ -67,9 +61,12 @@ const ethereumSignTransaction = async (txInfo) => {
             value,
             data,
             key,
-            chainId
+            parseInt(chainId)
         )
         LOG.debug('signedTx = ', signedTx)
+        if (signedTx.header.status === 'error') {
+            throw Error(JSON.stringify(signedTx.body.error))
+        }
         return '0x' + signedTx.body.parameter.signed
     } catch (error) {
         LOG.error(error)

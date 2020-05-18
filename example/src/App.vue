@@ -8,7 +8,7 @@
           <v-spacer></v-spacer>
 
           <v-btn text @click="onClickConnect">
-              <span class="mr-2">{{ btnConnectLabel }}</span>
+              <span>{{ btnConnectLabel }}</span>
           </v-btn>
       </v-app-bar>
 

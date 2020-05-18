@@ -7,11 +7,13 @@ import CacheSubprovider from 'web3-provider-engine/subproviders/cache.js'
 import FilterSubprovider from 'web3-provider-engine/subproviders/filters'
 import SubscriptionSubprovider from 'web3-provider-engine/subproviders/subscriptions'
 import InflightCacheSubprovider from 'web3-provider-engine/subproviders/inflight-cache'
-import HookedWalletSubprovider from 'web3-provider-engine/subproviders/hooked-wallet.js'
+//import HookedWalletSubprovider from 'web3-provider-engine/subproviders/hooked-wallet.js'
 import SanitizingSubprovider from 'web3-provider-engine/subproviders/sanitizer.js'
 import InfuraSubprovider from 'web3-provider-engine/subproviders/infura.js'
 import FetchSubprovider from 'web3-provider-engine/subproviders/fetch.js'
 import WebSocketSubprovider from 'web3-provider-engine/subproviders/websocket.js'
+
+import DcentHookedWallet from './dcent-hooked-wallet'
 
 /* //////////////////////////////////////////////////////////////////////// */
 /* */
@@ -47,28 +49,31 @@ function initialize(engine, opts = {}){
   engine.addProvider(inflightCache)
 
   // id mgmt
+  /*
   const idmgmtSubprovider = new HookedWalletSubprovider({
     // accounts
-    getAccounts: opts.wallet.getAccounts,
+    getAccounts: hookedWallet.getAccounts,
     // transactions
-    processTransaction: opts.wallet.processTransaction,
-    approveTransaction: opts.wallet.approveTransaction,
-    signTransaction: opts.wallet.signTransaction,
-    publishTransaction: opts.wallet.publishTransaction,
+    processTransaction: hookedWallet.processTransaction,
+    approveTransaction: hookedWallet.approveTransaction,
+    signTransaction: hookedWallet.signTransaction,
+    publishTransaction: hookedWallet.publishTransaction,
     // messages
     // old eth_sign
-    processMessage: opts.wallet.processMessage,
-    approveMessage: opts.wallet.approveMessage,
-    signMessage: opts.wallet.signMessage,
+    processMessage: hookedWallet.processMessage,
+    approveMessage: hookedWallet.approveMessage,
+    signMessage: hookedWallet.signMessage,
     // new personal_sign
-    processPersonalMessage: opts.wallet.processPersonalMessage,
-    processTypedMessage: opts.wallet.processTypedMessage,
-    approvePersonalMessage: opts.wallet.approvePersonalMessage,
-    approveTypedMessage: opts.wallet.approveTypedMessage,
-    signPersonalMessage: opts.wallet.signPersonalMessage,
-    signTypedMessage: opts.wallet.signTypedMessage,
-    personalRecoverSigner: opts.wallet.personalRecoverSigner,
+    processPersonalMessage: hookedWallet.processPersonalMessage,
+    processTypedMessage: hookedWallet.processTypedMessage,
+    approvePersonalMessage: hookedWallet.approvePersonalMessage,
+    approveTypedMessage: hookedWallet.approveTypedMessage,
+    signPersonalMessage: hookedWallet.signPersonalMessage,
+    signTypedMessage: hookedWallet.signTypedMessage,
+    personalRecoverSigner: hookedWallet.personalRecoverSigner,
   })
+  */
+  const idmgmtSubprovider = new DcentHookedWallet(opts)
   engine.addProvider(idmgmtSubprovider)
 
   // data source

@@ -4,7 +4,7 @@
       <v-col class="mb-4">
         <v-btn 
           text outlined
-          class="subheading mb-3" 
+          class="subheading" 
           :href="explorerUrl" target="_blank"
         >
           {{ networkName }} : {{ address }}
@@ -12,31 +12,37 @@
       </v-col>
     </v-row>
     <v-row class="text-center">
-      <v-col class="mb-4">
+      <v-col>
         <span class="title font-weight-bold mb-3">
           Click the Button to Test
         </span>
       </v-col>
     </v-row>
     <v-row class="text-center">
-      <v-col class="mb-4">
-          <v-btn dark @click="testSendTransaction">
-              <span class="mr-2">send-transaction</span>
+      <v-col>
+          <v-btn dark @click="testSendTransaction" min-width="50%">
+              <span class="btn-test">eth.sendTransaction</span>
           </v-btn>
       </v-col>
-      <v-col class="mb-4">
-          <v-btn dark>
-              <span class="mr-2">sign-message</span>
+    </v-row>
+    <v-row class="text-center">
+      <v-col>
+          <v-btn dark min-width="50%">
+              <span class="btn-test">eth.sign</span>
           </v-btn>
       </v-col>
-      <v-col class="mb-4">
-          <v-btn dark>
-              <span class="mr-2">sign-transaction</span>
+    </v-row>
+    <v-row class="text-center">
+      <v-col>
+          <v-btn dark min-width="50%">
+              <span>sign-transaction</span>
           </v-btn>
       </v-col>
-      <v-col class="mb-4">
-          <v-btn dark>
-              <span class="mr-2">sign-transaction</span>
+    </v-row>
+    <v-row class="text-center">
+      <v-col>
+          <v-btn dark min-width="50%">
+              <span>sign-transaction</span>
           </v-btn>
       </v-col>
     </v-row>
@@ -126,3 +132,9 @@
     }
   }
 </script>
+
+<style lang="scss" scoped>
+.btn-test {
+    text-transform: none
+}
+</style>

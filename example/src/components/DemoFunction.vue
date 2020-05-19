@@ -14,27 +14,15 @@
         </span>
       </v-col>
     </v-row>
-    <v-row class="text-center">
-      <v-col>
-        <v-btn dark min-width="50%" @click="testSendTransaction">
-          <span class="btn-test">eth.sendTransaction</span>
-        </v-btn>
-      </v-col>
-    </v-row>
-    <v-row class="text-center">
-      <v-col>
-        <v-btn dark min-width="50%" @click="testSign">
-          <span class="btn-test">eth.sign</span>
-        </v-btn>
-      </v-col>
-    </v-row>
-    <v-row class="text-center">
-      <v-col>
-        <v-btn dark min-width="50%" @click="testSignTransaction">
-          <span class="btn-test">eth.signTransaction</span>
-        </v-btn>
-      </v-col>
-    </v-row>
+    <div v-for="(test, index) in testCases" :key="index">
+      <v-row class="text-center">
+        <v-col>
+          <v-btn dark min-width="50%" @click="test.onClick">
+            <span class="btn-test">{{ test.name }}</span>
+          </v-btn>
+        </v-col>
+      </v-row>
+    </div>
 
     <ModalInProgress
       :is-in-progress="isInProgress"
@@ -80,7 +68,25 @@
         isModalUp: false,
         isInProgress: false,
         modalTitle: 'TEST',
-        modalMessage: 'TEST MESSAGE'
+        modalMessage: 'TEST MESSAGE',
+        testCases: [
+          { 
+            name: 'eth.sendTransaction', 
+            onClick: this.testSendTransaction
+          },
+          {
+            name: 'eth.sign', 
+            onClick: this.testSign
+          },
+          { 
+            name: 'eth.signTransaction', 
+            onClick: this.testSignTransaction
+          },
+          { 
+            name: 'eth.personal.sign', 
+            onClick: this.testPersonalSign
+          },
+        ]
       }
     },
 
@@ -193,7 +199,20 @@
           resultMessage = 'error : ' + error.message
         }
         this.showResult('eth.signTransaction()', resultMessage)
-      }
+      },
+
+      testPersonalSign: async function () {
+        this.readyToProcess()
+        const message = "Hello D'CENT for Personal Signature"
+        let resultMessage = ''
+        try {
+          const signature = await this.web3.eth.personal.sign(message, this.address, 'password123!')
+          resultMessage = 'signature : ' + signature
+        } catch (error) {
+          resultMessage = 'error : ' + error.message
+        }
+        this.showResult('eth.personal.sign()', resultMessage)
+      },
     }
   }
 </script>

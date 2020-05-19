@@ -52,6 +52,18 @@ class DcentHookedWallet extends HookedWalletSubprovider{
             callback(error)
         })
     }
+
+    signPersonalMessage(msgParam, callback) {
+        LOG.debug('msgParam = ', msgParam)
+        const message = EthUtil.toUtf8(msgParam.data)
+        LOG.debug('message = ', message)
+        DcentConnector.ethereumSignMessage(message)
+        .then((signed) => {
+            callback(null, signed)
+        }).catch((error) => {
+            callback(error)
+        })
+    }
 }
 
 /* //////////////////////////////////////////////////////////////////////// */

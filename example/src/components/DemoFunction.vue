@@ -2,11 +2,7 @@
   <v-container>
     <v-row class="text-right">
       <v-col class="mb-4">
-        <v-btn 
-          text outlined
-          class="subheading" 
-          :href="explorerUrl" target="_blank"
-        >
+        <v-btn text outlined class="subheading" :href="explorerUrl" target="_blank">
           {{ networkName }} : {{ address }}
         </v-btn>
       </v-col>
@@ -20,32 +16,35 @@
     </v-row>
     <v-row class="text-center">
       <v-col>
-          <v-btn dark @click="testSendTransaction" min-width="50%">
-              <span class="btn-test">eth.sendTransaction</span>
-          </v-btn>
+        <v-btn dark min-width="50%" @click="testSendTransaction">
+          <span class="btn-test">eth.sendTransaction</span>
+        </v-btn>
       </v-col>
     </v-row>
     <v-row class="text-center">
       <v-col>
-          <v-btn dark @click="testSign" min-width="50%">
-              <span class="btn-test">eth.sign</span>
-          </v-btn>
+        <v-btn dark min-width="50%" @click="testSign">
+          <span class="btn-test">eth.sign</span>
+        </v-btn>
       </v-col>
     </v-row>
     <v-row class="text-center">
       <v-col>
-          <v-btn dark min-width="50%">
-              <span>sign-transaction</span>
-          </v-btn>
+        <v-btn dark min-width="50%" @click="testSignTransaction">
+          <span class="btn-test">eth.signTransaction</span>
+        </v-btn>
       </v-col>
     </v-row>
-    <v-row class="text-center">
-      <v-col>
-          <v-btn dark min-width="50%">
-              <span>sign-transaction</span>
-          </v-btn>
-      </v-col>
-    </v-row>
+
+    <ModalInProgress
+      :is-in-progress="isInProgress"
+    />
+    <ModalProcessStates
+      :is-show="isModalUp"
+      :title="modalTitle"
+      :message="modalMessage"
+      @closed="onClosed"
+    />
   </v-container>
 </template>
 
@@ -53,8 +52,15 @@
   import Web3 from 'web3'
   import EthGasStation from '../apis/ethgasstation-info'
   import Convert from '../plugins/convert'
+  import ModalProcessStates from './modal/ProcesseStates'
+  import ModalInProgress from './modal/InProgress'
+
   export default {
     name: 'DemoFunction',
+    components: {
+      ModalInProgress,
+      ModalProcessStates,
+    },
     props: {
       address: {
         type: String,
@@ -70,22 +76,12 @@
       return {
         web3: undefined,
         chainId: 1,
-        gasPrice: 0
+        gasPrice: 0,
+        isModalUp: false,
+        isInProgress: false,
+        modalTitle: 'TEST',
+        modalMessage: 'TEST MESSAGE'
       }
-    },
-
-    created() {``
-      if (this.provider) {
-        this.web3 = new Web3(this.provider)
-        this.web3.eth.net.getId()
-        .then((chainId) => {
-          this.chainId = chainId
-        })
-      }
-      EthGasStation.getEthereumGasPrice()
-      .then((gasPriceInfo) => {
-        this.gasPrice = Convert.convertGweiToWei(gasPriceInfo.low)
-      })
     },
 
     computed: {
@@ -122,19 +118,81 @@
       }
     },
 
+    created() {
+      if (this.provider) {
+        this.web3 = new Web3(this.provider)
+        this.web3.eth.net.getId()
+        .then((chainId) => {
+          this.chainId = chainId
+        })
+      }
+      EthGasStation.getEthereumGasPrice()
+      .then((gasPriceInfo) => {
+        this.gasPrice = Convert.convertGweiToWei(gasPriceInfo.low)
+      })
+    },
+
     methods: {
+      readyToProcess: function () {
+        this.isInProgress = true
+      },
+
+      showResult: function (title, message) {
+        this.modalTitle = title
+        this.modalMessage = message
+        this.isModalUp = true
+        this.isInProgress = false
+      },
+
+      onClosed: function () {
+        console.log('onClosed')
+        this.isModalUp = false
+      },
+
       testSendTransaction: async function () {
         console.log('testSendTransaction')
+        this.readyToProcess()
         const tx = this.selfTransferTx
-        const txhash = await this.web3.eth.sendTransaction(tx)
-        console.log('txhash = ', txhash)
+        let resultMessage = ''
+        try {
+          const receipt = await this.web3.eth.sendTransaction(tx)
+          const txhash = receipt.transactionHash
+          console.log('txhash = ', txhash)
+          resultMessage = 'txid : ' + txhash
+        } catch (error) {
+          resultMessage = 'error : ' + error.message
+        }
+        this.showResult('eth.sendTransaction()', resultMessage)
       },
 
       testSign: async function () {
         console.log('testSign')
+        this.readyToProcess()
         const message = "Hello D'CENT"
-        const signature = await this.web3.eth.sign(message, this.address)
-        console.log('signature = ', signature)
+        let resultMessage = ''
+        try {
+          const signature = await this.web3.eth.sign(message, this.address)
+          console.log('signature = ', signature)
+          resultMessage = 'signature : ' + signature
+        } catch (error) {
+          resultMessage = 'error : ' + error.message
+        }
+        this.showResult('eth.sign()', resultMessage)
+      },
+
+      testSignTransaction: async function () {
+        console.log('testSignTransaction')
+        this.readyToProcess()
+        const tx = this.selfTransferTx
+        let resultMessage = ''
+        try {
+          const signedTx = await this.web3.eth.signTransaction(tx)
+          console.log('signedTx = ', signedTx)
+          resultMessage = 'signedTx : ' + JSON.stringify(signedTx)
+        } catch (error) {
+          resultMessage = 'error : ' + error.message
+        }
+        this.showResult('eth.signTransaction()', resultMessage)
       }
     }
   }

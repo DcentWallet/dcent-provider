@@ -1,5 +1,5 @@
 {
-  "name": "example",
+  "name": "dcent-provider-example",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -44,7 +44,9 @@
       "sourceType": "module",
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "vue/max-attributes-per-line": 0
+    }
   },
   "browserslist": [
     "> 1%",

@@ -1,25 +1,42 @@
 <template>
   <v-app>
-      <v-app-bar app color="blue-grey darken-4" dark>
-          <div class="d-flex align-center">
-              <v-img alt="D'CENT Logo" class="shrink mr-2" contain src="./assets/logo.png" transition="scale-transition" width="40" />
-          </div>
+    <v-app-bar
+      app
+      color="blue-grey darken-4"
+      dark
+    >
+      <div class="d-flex align-center">
+        <v-img
+          alt="D'CENT Logo"
+          class="shrink mr-2"
+          contain
+          src="./assets/logo.png"
+          transition="scale-transition"
+          width="40"
+        />
+      </div>
 
-          <v-spacer></v-spacer>
+      <v-spacer />
 
-          <v-btn text @click="onClickConnect">
-              <span>{{ btnConnectLabel }}</span>
-          </v-btn>
-      </v-app-bar>
+      <v-btn
+        text
+        @click="onClickConnect"
+      >
+        <span>{{ btnConnectLabel }}</span>
+      </v-btn>
+    </v-app-bar>
 
-      <v-content>
-          <div v-if="isConnected">
-              <DemoFunction :address="walletAddress" :provider="provider" />
-          </div>
-          <div v-else>
-              <HelloWorld />
-          </div>
-      </v-content>
+    <v-content>
+      <div v-if="isConnected">
+        <DemoFunction
+          :address="walletAddress"
+          :provider="provider"
+        />
+      </div>
+      <div v-else>
+        <HelloWorld />
+      </div>
+    </v-content>
   </v-app>
 </template>
 

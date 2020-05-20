@@ -1,8 +1,7 @@
 # dcent-provider
 
 This package is ethereum web3 provider of D'CENT Biometric Wallet.
-It is the wrapping package communicating with `dcent-web-connector`.
-For more information about `dcent-web-connector`, see DcentWallet/dcent-web-connector
+It is the wrapping package communicating with [`dcent-web-connector`](https://github.com/DcentWallet/dcent-web-connector).
 
 ## Installation
 

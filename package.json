@@ -12,9 +12,6 @@
     "type": "git",
     "url": "git+https://github.com/DcentWallet/dcent-provider.git"
   },
-  "publishConfig": { 
-    "registry": "https://npm.pkg.github.com/" 
-  },
   "keywords": [
     "D'CENT",
     "dcent",
@@ -53,5 +50,8 @@
     "dcent-web-connector": "^0.7.2-beta",
     "web3-provider-engine": "^15.0.7"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DcentWallet/dcent-provider/issues"
+  }
 }

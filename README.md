@@ -15,7 +15,7 @@ npm i dcent-provider
 
 ## Usage
 
-### Create provider
+### Create provider and use directly
 
 ```js
 import DcentProvider from 'dcent-provider'
@@ -41,6 +41,12 @@ const receipt = await provider.send('eth_sendTransaction', tx)
 
 ```js
 import Web3 from 'web3'
+import DcentProvider from 'dcent-provider'
+
+const provider = new DcentProvider({
+    rpcUrl: "YOUR_RPC_URL",   // required
+    chainId: 1, // (optional) default = 1
+})
 
 const web3 = new Web3(provider)
 const accounts = await web3.eth.getAccounts()
@@ -54,6 +60,10 @@ const tx = {
 }
 const receipt = await web3.eth.sendTransaction(tx)
 ```
+
+## Demo
+
+Check [example](example/README.md) package
 
 ## Build & Test
 

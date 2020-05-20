@@ -1,0 +1,57 @@
+{
+  "name": "dcent-provider",
+  "version": "0.1.0-beta",
+  "description": "D'CENT Provider wrapping Dcent Web Connector",
+  "main": "src/index.js",
+  "scripts": {
+    "build-dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "test": "jest --config tests/jest.conf.js --detectOpenHandles --coverage --forceExit --runInBand"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DcentWallet/dcent-provider.git"
+  },
+  "keywords": [
+    "D'CENT",
+    "dcent",
+    "hardware wallet",
+    "wallet sdk",
+    "D'CENT biometric wallet",
+    "dcent sdk",
+    "dcent web sdk",
+    "dcentwallet",
+    "dcent web connector",
+    "dcent web3 provider",
+    "dcent provider",
+    "web3",
+    "ethereum"
+  ],
+  "homepage": "https://github.com/DcentWallet/dcent-provider#readme",
+  "author": "IoTrust Co. Ltd.,",
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.9.4",
+    "babel-jest": "^24.8.0",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "expect-puppeteer": "^4.4.0",
+    "jest": "^24.8.0",
+    "jest-puppeteer": "^4.4.0",
+    "path": "^0.12.7",
+    "puppeteer": "^2.1.1",
+    "regenerator-runtime": "^0.13.3",
+    "web3": "^1.2.7",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6"
+  },
+  "dependencies": {
+    "dcent-web-connector": "^0.7.2-beta",
+    "web3-provider-engine": "^15.0.7"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DcentWallet/dcent-provider/issues"
+  }
+}

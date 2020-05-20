@@ -18,17 +18,38 @@ npm i dcent-provider
 import DcentProvider from 'dcent-provider'
 
 const provider = new DcentProvider({
-    rpcUrl: "https://localhost:8545",   // (optional) default = infura https provider
+    rpcUrl: "YOUR_RPC_URL",   // required
     chainId: 1, // (optional) default = 1
 })
+
+const account = await provider.enable()
+const tx = {
+    from: account[0],
+    gasPrice: "2000000000",
+    gas: "21000",
+    to: account[0],
+    value: "0",
+    data: ""
+}
+const receipt = await provider.send('eth_sendTransaction', tx)
 ```
 
-### set provider on web3js
+### Set provider on web3js
 
 ```js
 import Web3 from 'web3'
 
 const web3 = new Web3(provider)
+const accounts = await web3.eth.getAccounts()
+const tx = {
+    from: accounts[0],
+    gasPrice: "2000000000",
+    gas: "21000",
+    to: account[0],
+    value: "0",
+    data: ""
+}
+const receipt = await web3.eth.sendTransaction(tx)
 ```
 
 ## Build & Test

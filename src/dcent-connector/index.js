@@ -32,12 +32,18 @@ const isConnected = async () => {
 const ethereumAddress = async (opts) => {
     let coinType = DcentWebConnector.coinType.ETHEREUM
     let keyPath = _ethereumKeyPath
-    let address = await DcentWebConnector.getAddress(coinType, keyPath)
-    LOG.debug('address = ', address)
-    if (opts.needToClosePopup) {
-        DcentWebConnector.popupWindowClose()
+    try {
+        let address = await DcentWebConnector.getAddress(coinType, keyPath)
+        LOG.debug('address = ', address)
+        return address.body.parameter.address
+    } catch (error) {
+        LOG.error(error)
+        throw error
+    } finally {
+        if (opts.needToClosePopup) {
+            DcentWebConnector.popupWindowClose()
+        }
     }
-    return address.body.parameter.address
 }
 
 const ethereumSignTransaction = async (txInfo, chainId) => {
@@ -49,7 +55,7 @@ const ethereumSignTransaction = async (txInfo, chainId) => {
     let gasPrice = _toHexString(txInfo.gasPrice)
     let gasLimit = _toHexString(txInfo.gas)
     let to = txInfo.to.toString()
-    let value = _toHexString(txInfo.value)
+    let value = txInfo.value ? _toHexString(txInfo.value) : '0x00'
     let data = txInfo.data || ''
     let key = _ethereumKeyPath
 

@@ -1,4 +1,6 @@
+.github
 dist
 example
 node_modules
-tests/coverage
+src/dcent-connector/__mocks__
+tests

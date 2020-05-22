@@ -23,9 +23,13 @@ class DcentHookedWallet extends HookedWalletSubprovider{
 
     getAccounts(callback) {
         LOG.debug('this._chainId = ', this._chainId)
-        DcentConnector.ethereumAddress({needToClosePopup: false})
+        DcentConnector.ethereumAddress({needToClosePopup: true})
         .then((address) => {
-            callback(null, [address])
+            setTimeout(() => {
+                callback(null, [address])
+            }, 1000);
+        }).catch((error) => {
+            callback(error)
         })
     }
 

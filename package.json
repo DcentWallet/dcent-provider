@@ -1,6 +1,6 @@
 {
   "name": "dcent-provider",
-  "version": "0.1.0-beta",
+  "version": "0.2.0-beta",
   "description": "D'CENT Provider wrapping Dcent Web Connector",
   "main": "src/index.js",
   "scripts": {

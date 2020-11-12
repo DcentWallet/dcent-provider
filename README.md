@@ -1,4 +1,4 @@
-# dcent-connector-web3-provider
+# dcent-provider
 
 This package is ethereum web3 provider of D'CENT Biometric Wallet.
 It is the wrapping package communicating with [`dcent-web-connector`](https://github.com/DcentWallet/dcent-web-connector). Since `dcent-web-connector` can be used only on desktop environment via USB interface, this package only for desktop environment.
@@ -10,7 +10,7 @@ It is the wrapping package communicating with [`dcent-web-connector`](https://gi
 ## Installation
 
 ```sh
-npm i dcent-connector-web3-provider
+npm i dcent-provider
 ```
 
 ## Usage
@@ -18,7 +18,7 @@ npm i dcent-connector-web3-provider
 ### Create provider and use directly
 
 ```js
-import DcentProvider from 'dcent-connector-web3-provider'
+import DcentProvider from 'dcent-provider'
 
 const provider = new DcentProvider({
     rpcUrl: "YOUR_RPC_URL",   // required
@@ -41,7 +41,7 @@ const receipt = await provider.send('eth_sendTransaction', tx)
 
 ```js
 import Web3 from 'web3'
-import DcentProvider from 'dcent-connector-web3-provider'
+import DcentProvider from 'dcent-provider'
 
 const provider = new DcentProvider({
     rpcUrl: "YOUR_RPC_URL",   // required

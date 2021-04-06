@@ -23,11 +23,12 @@ class DcentProvider extends Web3ProviderEngine {
         super({})
         if (!opts) { opts = {} }
         ProviderFactory.initialize(this, opts)
+        DcentConnector.initialize()
     }
 
     enable() {
         return new Promise((resolve) => {
-            DcentConnector.ethereumAddress({needToClosePopup: true})
+            DcentConnector.ethereumAddress({needToClosePopup: true, enable: true})
             .then((address) => {
                 resolve([address])
             })
@@ -37,7 +38,12 @@ class DcentProvider extends Web3ProviderEngine {
     send(method, params) {
         if (method === 'eth_requestAccounts') {
             // REF : https://eips.ethereum.org/EIPS/eip-1102
-            return this.enable()
+            return new Promise((resolve) => {
+              DcentConnector.ethereumAddress({needToClosePopup: true})
+              .then((address) => {
+                  resolve([address])
+              })
+          })
         }
 
         if (typeof params === 'undefined') {

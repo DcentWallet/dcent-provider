@@ -11,6 +11,7 @@ import LOG from '../utils/log'
 
 const _ethereumKeyPath = "m/44'/60'/0'/0/0"
 
+let _ethereumAddress = null
 /* //////////////////////////////////////////////////////////////////////// */
 /* */
 /* //////////////////////////////////////////////////////////////////////// */
@@ -20,6 +21,10 @@ const _toHexString = (value) => {
     LOG.debug('value = ', value)
     LOG.debug('hex = ', hex)
     return hex
+}
+
+const initialize = () => {
+  _ethereumAddress = null
 }
 
 const isConnected = async () => {
@@ -33,9 +38,12 @@ const ethereumAddress = async (opts) => {
     let coinType = DcentWebConnector.coinType.ETHEREUM
     let keyPath = _ethereumKeyPath
     try {
-        let address = await DcentWebConnector.getAddress(coinType, keyPath)
-        LOG.debug('address = ', address)
-        return address.body.parameter.address
+        if (opts.enable || _ethereumAddress === null) {
+          let address = await DcentWebConnector.getAddress(coinType, keyPath)
+          LOG.debug('address = ', address)
+          _ethereumAddress = address.body.parameter.address
+        }
+        return _ethereumAddress
     } catch (error) {
         LOG.error(error)
         throw error
@@ -113,6 +121,7 @@ export default {
     ethereumAddress,
     ethereumSignTransaction,
     ethereumSignMessage,
+    initialize,
 }
 
 /* //////////////////////////////////////////////////////////////////////// */

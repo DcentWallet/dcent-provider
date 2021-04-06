@@ -6,6 +6,9 @@ const isConnected = () => {
     return new Promise((resolve) => {resolve(true)})
 }
 
+const initialize = () => {
+}
+
 const ethereumAddress = () => {
     return new Promise((resolve) => {resolve('0x59B1e729B5c65D2c25F6A16164cF0Db0E9fA5754')})
 }
@@ -26,6 +29,7 @@ export default {
     isConnected,
     ethereumAddress,
     ethereumSignTransaction,
+    initialize
 }
 
 /* //////////////////////////////////////////////////////////////////////// */

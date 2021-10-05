@@ -1,1 +1,1 @@
-declare module 'dcent-provider';
+declare module '@rsksmart/dcent-provider';

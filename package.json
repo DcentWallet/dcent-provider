@@ -1,5 +1,5 @@
 {
-  "name": "dcent-provider",
+  "name": "@rsksmart/dcent-provider",
   "version": "0.3.0-beta",
   "description": "D'CENT Provider wrapping Dcent Web Connector",
   "main": "src/index.js",

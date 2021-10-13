@@ -19,11 +19,12 @@ class DcentHookedWallet extends HookedWalletSubprovider{
             opts.chainId = ChainId.MAINNET
         }
         this._chainId = opts.chainId
+        this.dpath = opts.dpath
     }
 
     getAccounts(callback) {
         LOG.debug('this._chainId = ', this._chainId)
-        DcentConnector.ethereumAddress({needToClosePopup: true})
+        DcentConnector.ethereumAddress({needToClosePopup: true, dpath: this.dpath})
         .then((address) => {
             setTimeout(() => {
                 callback(null, [address])
@@ -37,7 +38,7 @@ class DcentHookedWallet extends HookedWalletSubprovider{
         LOG.debug('ENTER : signTransaction') 
         LOG.debug('tx = ', tx)
 
-        DcentConnector.ethereumSignTransaction(tx, this._chainId)
+        DcentConnector.ethereumSignTransaction(tx, this._chainId, this.dpath)
         .then((signedTx) => {
             callback(null, signedTx)
         }).catch((error) => {
@@ -50,7 +51,7 @@ class DcentHookedWallet extends HookedWalletSubprovider{
         //const message = EthUtil.toUtf8(msgParam.data)
         const message = msgParam.data
         LOG.debug('message = ', message)
-        DcentConnector.ethereumSignMessage(message)
+        DcentConnector.ethereumSignMessage(message, this.dpath)
         .then((signed) => {
             callback(null, signed)
         }).catch((error) => {
@@ -63,7 +64,7 @@ class DcentHookedWallet extends HookedWalletSubprovider{
         //const message = EthUtil.toUtf8(msgParam.data)
         const message = msgParam.data
         LOG.debug('message = ', message)
-        DcentConnector.ethereumSignMessage(message)
+        DcentConnector.ethereumSignMessage(message, this.dpath)
         .then((signed) => {
             callback(null, signed)
         }).catch((error) => {

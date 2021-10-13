@@ -36,7 +36,7 @@ const isConnected = async () => {
 
 const ethereumAddress = async (opts) => {
     let coinType = DcentWebConnector.coinType.ETHEREUM
-    let keyPath = _ethereumKeyPath
+    let keyPath = opts.dpath || _ethereumKeyPath
     try {
         if (opts.enable || _ethereumAddress === null) {
           let address = await DcentWebConnector.getAddress(coinType, keyPath)
@@ -54,7 +54,7 @@ const ethereumAddress = async (opts) => {
     }
 }
 
-const ethereumSignTransaction = async (txInfo, chainId) => {
+const ethereumSignTransaction = async (txInfo, chainId, key = _ethereumKeyPath) => {
     LOG.debug('txInfo = ', txInfo)
     LOG.debug('chainId = ', chainId)
 
@@ -65,7 +65,6 @@ const ethereumSignTransaction = async (txInfo, chainId) => {
     let to = txInfo.to.toString()
     let value = txInfo.value ? _toHexString(txInfo.value) : '0x00'
     let data = txInfo.data || ''
-    let key = _ethereumKeyPath
 
     try {
         let signedTx = await DcentWebConnector.getEthereumSignedTransaction(
@@ -92,8 +91,7 @@ const ethereumSignTransaction = async (txInfo, chainId) => {
     }
 }
 
-const ethereumSignMessage = async (message) => {
-    let key = _ethereumKeyPath
+const ethereumSignMessage = async (message, key = _ethereumKeyPath) => {
     try {
         let signed = await DcentWebConnector.getEthereumSignedMessage(
             message,
